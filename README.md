@@ -1,8 +1,10 @@
-versiones:
+v3
+
+Versiones:
 python 3.4
 django 1.7c3
 
-comandos:
+Comandos:
 VirtualEnv:
   workon restoapp
 Git:
