@@ -1,36 +1,46 @@
 from django.db import models
 
+
 class Categoria(models.Model):
     nombre = models.CharField(max_length=128, unique=True)
-    descripcion = models.TextField()
 
     def __str__(self):
         return self.nombre
 
 
-class Presentacion(models.Model):
+class Grupo(models.Model):
     nombre = models.CharField(max_length=128, unique=True)
-    descripcion = models.TextField()
-
-    def __str__(self):
-        return self.nombre
-
-
-class Menu(models.Model):
-    nombre = models.CharField(max_length=128, unique=True)
-    descripcion = models.TextField()
-    precio = models.IntegerField(default=0)
     categoria = models.ForeignKey(Categoria)
-    presentacion = models.ForeignKey(Presentacion)
 
     def __str__(self):
         return self.nombre
 
 
-class Pedido(models.Model):
-    menu = models.ManyToManyField(Menu)
+class Producto(models.Model):
+    nombre = models.CharField(max_length=128, unique=True)
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
+    grupo = models.ForeignKey(Grupo)
+    descripcion = models.TextField(blank=True)
+    disponible = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nombre
+
+
+'''class Pedido(models.Model):
+    menu = models.ForeignKey(Menu)
+    cantidad = models.IntegerField(default=0)
+
+    def __str__(self):
+        return '{cantidad} {menu}'.format(
+            cantidad=self.cantidad,
+            menu=self.menu.nombre,
+        )
+
+class Compra(models.Model):
+    pedido = models.ManyToManyField(Pedido)
     ESTADOS = (
-        ('P', 'PEDIDO'),
+        ('I', 'INICIADO'),
         ('C', 'COCINA'),
         ('M', 'MOSTRADOR'),
         ('D', 'DELIVERY'),
@@ -40,5 +50,8 @@ class Pedido(models.Model):
     fechahora = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.id + " / " + self.fechahora
-
+        return '{id} {fechahora}'.format(
+            id=self.id,
+            fechahora=self.fechahora.strftime("%Y-%m-%d %H:%M:%S"),
+        )
+'''

@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 
-# Create your views here.
+def index(request):
+  #return render(request, 'restoapp/index.html', {})
+  context = RequestContext(request)
+  return render_to_response('restoapp/index.html', {}, context)

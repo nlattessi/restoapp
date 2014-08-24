@@ -13,21 +13,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Categoria',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('nombre', models.CharField(unique=True, max_length=128)),
-                ('descripcion', models.TextField()),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('nombre', models.CharField(max_length=128, unique=True)),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Menu',
+            name='Grupo',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('nombre', models.CharField(unique=True, max_length=128)),
-                ('descripcion', models.TextField()),
-                ('precio', models.IntegerField(default=0)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('nombre', models.CharField(max_length=128, unique=True)),
                 ('categoria', models.ForeignKey(to='restoapp.Categoria')),
             ],
             options={
@@ -35,32 +32,17 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Pedido',
+            name='Producto',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('estado', models.CharField(max_length=1, choices=[('P', 'PEDIDO'), ('C', 'COCINA'), ('M', 'MOSTRADOR'), ('D', 'DELIVERY'), ('E', 'ENTREGADO')])),
-                ('fechahora', models.DateTimeField(auto_now_add=True)),
-                ('menu', models.ManyToManyField(to='restoapp.Menu')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('nombre', models.CharField(max_length=128, unique=True)),
+                ('precio', models.DecimalField(decimal_places=2, max_digits=8)),
+                ('descripcion', models.TextField(blank=True)),
+                ('disponible', models.BooleanField(default=True)),
+                ('grupo', models.ForeignKey(to='restoapp.Grupo')),
             ],
             options={
             },
             bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='Presentacion',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('nombre', models.CharField(unique=True, max_length=128)),
-                ('descripcion', models.TextField()),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='menu',
-            name='presentacion',
-            field=models.ForeignKey(to='restoapp.Presentacion'),
-            preserve_default=True,
         ),
     ]
